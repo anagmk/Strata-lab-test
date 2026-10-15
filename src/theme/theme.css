@@ -1,0 +1,146 @@
+@import "tailwindcss";
+@import "@fontsource/barlow-condensed/500.css";
+@import "@fontsource/barlow-condensed/600.css";
+@import "@fontsource/barlow-condensed/700.css";
+@import "@fontsource/ibm-plex-sans/400.css";
+@import "@fontsource/ibm-plex-sans/500.css";
+@import "@fontsource/ibm-plex-sans/600.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+
+/* ------------------------------------------------------------------
+   DESIGN TOKENS — single source of truth.
+   Everything in the UI reads these variables; change them here only.
+   ------------------------------------------------------------------ */
+:root {
+  --bg: #E9E6DF;          /* warm concrete */
+  --surface: #F6F4EF;     /* paper */
+  --surface-2: #EFECE5;   /* inset / table header */
+  --ink: #1B1B19;
+  --ink-2: #6B675E;       /* secondary text (AA on surface) */
+  --line: #CFCAC0;        /* hairline border */
+  --line-strong: #1B1B19;
+  --accent: #E2471F;      /* survey-marker orange-red: the only accent */
+  --accent-ink: #FFFFFF;
+  --pass: #4F6B3A;        /* oxide green */
+  --warn: #B98A1E;        /* ochre */
+  --fail: #9C2B1E;        /* brick */
+  --grid: rgba(27, 27, 25, 0.045);
+  --chart-1: #1B1B19;
+  --chart-2: #6B675E;
+  --chart-3: #E2471F;
+}
+
+[data-theme="dark"] {
+  --bg: #171715;          /* graphite */
+  --surface: #1F1F1C;
+  --surface-2: #262623;
+  --ink: #ECE9E1;
+  --ink-2: #A29E93;
+  --line: #383733;
+  --line-strong: #ECE9E1;
+  --accent: #F0602F;
+  --accent-ink: #171715;
+  --pass: #8FB070;
+  --warn: #D9AE4A;
+  --fail: #D9604F;
+  --grid: rgba(236, 233, 225, 0.05);
+  --chart-1: #ECE9E1;
+  --chart-2: #A29E93;
+  --chart-3: #F0602F;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-pass: var(--pass);
+  --color-warn: var(--warn);
+  --color-fail: var(--fail);
+
+  --font-display: "Barlow Condensed", "Archivo Narrow", "Arial Narrow", sans-serif;
+  --font-sans: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  /* type scale */
+  --text-label: 0.6875rem;   /* 11px caps labels */
+  --text-small: 0.8125rem;   /* 13px */
+  --text-body: 0.875rem;     /* 14px */
+  --text-h2: 1.5rem;
+  --text-h1: 2.25rem;
+  --text-kpi: 2.75rem;
+
+  --radius-sm: 2px;
+  --radius-md: 2px;
+  --radius-lg: 2px;
+}
+
+html { color-scheme: light; }
+html[data-theme="dark"] { color-scheme: dark; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* drafting-paper texture on empty areas (8px minor / 64px major) */
+.paper {
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 8px 8px;
+}
+.paper-major {
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px),
+    linear-gradient(rgba(128,124,112,.10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(128,124,112,.10) 1px, transparent 1px);
+  background-size: 8px 8px, 8px 8px, 64px 64px, 64px 64px;
+}
+
+.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.label {
+  font-size: var(--text-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  font-weight: 500;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* skeleton rows (no spinners) */
+@keyframes sk { 0% { opacity: .55 } 50% { opacity: 1 } 100% { opacity: .55 } }
+.skeleton { background: var(--surface-2); animation: sk 1.2s linear infinite; border-radius: 2px; }
+
+/* row transitions */
+tbody tr { transition: background-color 80ms linear; }
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton { animation: none; }
+  * { transition: none !important; }
+}
+
+/* ---------- print: only the report sheet ---------- */
+@media print {
+  html, body { background: #fff !important; }
+  .no-print { display: none !important; }
+  .print-root { margin: 0 !important; padding: 0 !important; background: #fff !important; }
+  .report-sheet { border: none !important; box-shadow: none !important; }
+  @page { size: A4; margin: 14mm; }
+}
